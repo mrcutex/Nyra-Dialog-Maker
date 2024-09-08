@@ -16,6 +16,11 @@
             overflow: hidden;
         }
 
+        #mobile-menu.open {
+            max-height: 300px; /* Adjust based on content height */
+            opacity: 1;
+        }
+
         /* Dark Mode Customization */
         body {
             background-color: #000000;
@@ -38,108 +43,366 @@
             background-color: #333333;
         }
 
-        /* Ensure smooth animation on first open */
-        #mobile-menu.open {
-            max-height: 300px; /* Adjust based on content height */
+        /* Fade In/Out Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+        }
+
+        /* Ripple Animation for section open/close */
+        .ripple-effect {
+            animation: ripple 0.5s ease-out;
+        }
+
+        @keyframes ripple {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Add vertical line to active navigation item */
+        .active-nav {
+            border-left: 4px solid #24D566; /* Green vertical line */
+            padding-left: 12px; /* Add some padding for spacing */
+        }
+
+        /* Show the section when it is active */
+        .active {
             opacity: 1;
+            z-index: 1;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: block;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .hidden-section {
+            opacity: 0;
+            z-index: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            animation: fadeOut 0.6s ease-in-out;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-top: 2rem;
         }
     </style>
 </head>
 <body>
 
     <!-- Navigation Bar -->
-    <nav class="bg-blue-600 p-3 border-b border-gray-700">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-white text-xl font-semibold">
-                <span class="text-highlight">Nyra</span> Dialog Maker
+    <header>
+        <nav class="bg-blue-600 p-3 border-b border-gray-700">
+            <div class="container mx-auto flex justify-between items-center">
+                <!-- Title -->
+                <div class="flex items-center space-x-2 text-white text-xl font-semibold">
+                    <span class="text-highlight">Nyra</span>
+                    <span>Dialog Maker</span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#" class="text-white hover:bg-blue-700 py-2 px-3 rounded active-nav" onclick="showSection('home')">Home</a>
+                    <a href="#" class="text-white hover:bg-blue-700 py-2 px-3 rounded" onclick="showSection('about')">About</a>
+                    <a href="#" class="text-white hover:bg-blue-700 py-2 px-3 rounded" onclick="showSection('Changelogs')">Changelogs</a>
+                    <a href="#" class="text-white hover:bg-blue-700 py-2 px-3 rounded" onclick="showSection('Download')">Download</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-white focus:outline-none text-2xl flex items-center">
+                        <i id="menu-icon" class="fas fa-bars"></i>
+                    </button>
+                </div>
             </div>
-            <div class="hidden md:flex space-x-4">
-                <a href="#" class="text-white hover:bg-blue-700 py-2 px-3 rounded">Home</a>
-                <a href="#" class="text-white hover:bg-blue-700 py-2 px-3 rounded">About</a>
-                <a href="#" class="text-white hover:bg-blue-700 py-2 px-3 rounded">Services</a>
-                <a href="#" class="text-white hover:bg-blue-700 py-2 px-3 rounded">Contact</a>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden mt-4 space-y-2">
+                <a href="#" class="block text-white hover:bg-blue-600 py-2 px-4 rounded active-nav" onclick="showSection('home')">Home</a>
+                <a href="#" class="block text-white hover:bg-blue-600 py-2 px-4 rounded" onclick="showSection('about')">About</a>
+                <a href="#" class="block text-white hover:bg-blue-600 py-2 px-4 rounded" onclick="showSection('Changelogs')">Changelogs</a>
+                <a href="#" class="block text-white hover:bg-blue-600 py-2 px-4 rounded" onclick="showSection('Download')">Download</a>
             </div>
-            <!-- Mobile Menu Button -->
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-white focus:outline-none text-2xl">
-                    <i id="menu-icon" class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden mt-4 space-y-2">
-            <a href="#" class="block text-white hover:bg-blue-700 py-2 px-4 rounded">Home</a>
-            <a href="#" class="block text-white hover:bg-blue-700 py-2 px-4 rounded">About</a>
-            <a href="#" class="block text-white hover:bg-blue-700 py-2 px-4 rounded">Services</a>
-            <a href="#" class="block text-white hover:bg-blue-700 py-2 px-4 rounded">Contact</a>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
     <!-- Main Content -->
-    <div class="container mx-auto mt-10">
-        <h1 class="text-4xl font-bold text-center text-white">Welcome to <span class="text-highlight">Nyra</span> Dialog Maker</h1>
-        <p class="text-center text-gray-400 mt-4">Create elegant dialogs with ease.</p>
-    
-        <!-- Showcase Section -->
-        <div class="mt-16 flex flex-col md:flex-row items-center">
-            <center>
-                <a href="#downSection">
-                    <button class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded transition duration-300 ease-in-out">Download</button>
-                </a>
-            </center>
+    <main id="content" class="relative">
+        <!-- Home Section (default) -->
+        <section id="home" class="active ripple-effect">
+            <div class="container mx-auto mt-10">
+                <h1 class="text-4xl font-bold text-center text-white">Welcome to <span class="text-highlight">Nyra</span> Dialog Maker</h1>
+                <p class="text-center text-gray-400 mt-4">Create elegant dialogs with ease.</p>
+            </div>
+            
+            <div class="mt-16 flex flex-col md:flex-row items-center">
+                <center>
+                    <a href="#downSection">
+                        <button class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded transition duration-300 ease-in-out">Download</button>
+                    </a>
+                </center>
 
-            <!-- App Image -->
-            <center>
-                <div class="w-full md:w-1/2 p-4">
-                    <img src="https://i.ibb.co/QnfhWht/20240818-175737.png" alt="Nyra Dialog Maker" height="420" width="280" class="rounded-lg shadow-lg">
+                <!-- App Image -->
+                <center>
+                    <div class="w-full md:w-1/2 p-4">
+                        <img src="https://i.ibb.co/QnfhWht/20240818-175737.png" alt="Nyra Dialog Maker" height="420" width="280" class="rounded-lg shadow-lg">
+                    </div>
+                </center>
+
+                <!-- App Description -->
+                <div class="w-full md:w-1/2 p-4 text-white">
+                    <h2 class="text-3xl font-semibold mb-4">Introducing <span class="text-highlight">Nyra Dialog Maker</span></h2>
+                    <p class="mb-4">Nyra Dialog Maker is a powerful tool for creating beautiful and customizable dialogs with ease. Whether you need simple alerts or complex forms, Nyra Dialog Maker has you covered.</p>
+                    <ul class="list-disc pl-5">
+                        <li class="mb-2">Easy to integrate into any project.</li>
+                        <li class="mb-2">Fully customizable dialogs with various templates.</li>
+                        <li class="mb-2">Lightweight and optimized for performance.</li>
+                        <li class="mb-2">Supports both light and dark modes.</li>
+                    </ul>
+                    <a href="#" class="inline-block mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded">Learn More</a>
                 </div>
-            </center>
+            </div>
+        </section>
+<!-- About Section -->
+<section id="about" class="relative overflow-hidden hidden-section ripple-effect bg-gray-900 text-white py-12">
+    <!-- Background Video -->
+    <video autoplay loop muted class="absolute top-0 left-0 w-full h-full object-cover -z-10 opacity-50">
+        <source src="path_to_your_binary_number_video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 
-            <!-- App Description -->
-            <div class="w-full md:w-1/2 p-4 text-white">
-                <h2 class="text-3xl font-semibold mb-4">Introducing <span class="text-highlight">Nyra Dialog Maker</span></h2>
-                <p class="mb-4">Nyra Dialog Maker is a powerful tool for creating beautiful and customizable dialogs with ease. Whether you need simple alerts or complex forms, Nyra Dialog Maker has you covered.</p>
-                <ul class="list-disc pl-5">
-                    <li class="mb-2">Easy to integrate into any project.</li>
-                    <li class="mb-2">Fully customizable dialogs with various templates.</li>
-                    <li class="mb-2">Lightweight and optimized for performance.</li>
-                    <li class="mb-2">Supports both light and dark modes.</li>
-                </ul>
-                <a href="#" class="inline-block mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded">Learn More</a>
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+        <!-- Section Header -->
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-white mb-4">About Nyra Dialog Maker</h2>
+            <p class="text-lg text-gray-300 leading-relaxed">
+                Nyra Dialog Maker is a cutting-edge tool designed to create customizable and interactive dialogs effortlessly. Perfect for integrating modern dialog designs into any project with ease.
+            </p>
+        </div>
+
+        <!-- Post Information -->
+        <div class="bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 mx-auto max-w-3xl">
+            <div class="flex flex-col md:flex-row items-center justify-between mb-8">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-semibold mb-2">Posted by:</h3>
+                    <p class="text-xl font-medium text-blue-400">Cutex</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-2">Posted on:</h3>
+                    <p class="text-xl font-medium text-blue-400">2024-09-08</p>
+                </div>
+            </div>
+
+            <!-- Links and FAQs -->
+            <div class="text-center mt-8">
+                <a href="#contact" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300">Contact Us</a>
+                <a href="#faq" class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ml-4">FAQs</a>
+                <a href="link_to_your_first_external_resource" target="_blank" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 mt-4 block">External Resource 1</a>
+                <a href="link_to_your_second_external_resource" target="_blank" class="inline-block bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 mt-4 block">External Resource 2</a>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Download Section -->
-    <div id="downSection" class="bg-blue-600 rounded-lg p-4 m-4 shadow-lg flex items-center text-white">
-        <img src="https://i.ibb.co/VjwWpqx/android.png" alt="android" class="w-12 h-12 mr-4">
-        <div>
-            <h3 class="text-xl font-semibold m-0">Nyra Dialog Maker</h3>
-            <p class="text-gray-400 mb-4">Version 1.0</p>
-            <center>
-                <button class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded transition duration-300 ease-in-out">Download</button>
-            </center>
+<!-- FAQ Section -->
+<section id="faq" class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-6 md:px-12">
+        <!-- FAQ Header -->
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-white mb-4">Frequently Asked Questions</h2>
+        </div>
+
+        <!-- FAQ Content -->
+        <div class="bg-gray-700 rounded-xl shadow-lg p-8 md:p-12 mx-auto max-w-3xl">
+            <div class="mb-6">
+                <h3 class="text-2xl font-semibold mb-2">What is Nyra Dialog Maker?</h3>
+                <p class="text-lg text-gray-300">Nyra Dialog Maker is a tool designed to create and manage interactive dialogs with ease, offering a range of customizable options.</p>
+            </div>
+            <div class="mb-6">
+                <h3 class="text-2xl font-semibold mb-2">How can I integrate it into my project?</h3>
+                <p class="text-lg text-gray-300">You can integrate Nyra Dialog Maker by including the necessary JavaScript and CSS files and using the provided APIs to create dialogs.</p>
+            </div>
+            <!-- Add more FAQs as needed -->
         </div>
     </div>
+</section>
 
-    <script>
-        // Toggle mobile menu visibility with smooth animation and icon change
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuIcon = document.getElementById('menu-icon');
 
-            mobileMenu.classList.toggle('open');
-            
-            // Toggle between bars and x icon
-            if (mobileMenu.classList.contains('open')) {
-                menuIcon.classList.remove('fa-bars');
-                menuIcon.classList.add('fa-times');
+
+
+        <!-- Changelogs Section -->
+<section id="Changelogs" class="hidden-section ripple-effect">
+    <h2 class="section-title text-white">Changelogs</h2>
+    <p class="text-center text-gray-400 mt-4">Detailed updates and improvements for each version:</p>
+
+    <!-- Changelog List -->
+    <div class="mt-8 mx-auto max-w-4xl px-4">
+        <!-- Changelog Item -->
+        <div class="bg-gray-800 text-white rounded-lg shadow-lg mb-6 p-6">
+            <h3 class="text-xl font-semibold">Version 1.2 - August 2024</h3>
+            <div class="mt-4">
+                <p class="font-semibold">New Features:</p>
+                <ul class="list-disc pl-5 mt-2 space-y-2">
+                    <li>Introduced a new dialog template.</li>
+                    <li>Enhanced performance and stability.</li>
+                </ul>
+                <p class="font-semibold mt-4">Bug Fixes:</p>
+                <ul class="list-disc pl-5 mt-2 space-y-2">
+                    <li>Fixed minor bugs related to UI glitches.</li>
+                    <li>Resolved issues with dialog responsiveness.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Changelog Item -->
+        <div class="bg-gray-800 text-white rounded-lg shadow-lg mb-6 p-6">
+            <h3 class="text-xl font-semibold">Version 1.1 - July 2024</h3>
+            <div class="mt-4">
+                <p class="font-semibold">New Features:</p>
+                <ul class="list-disc pl-5 mt-2 space-y-2">
+                    <li>Added support for custom themes.</li>
+                    <li>Improved accessibility features.</li>
+                </ul>
+                <p class="font-semibold mt-4">Bug Fixes:</p>
+                <ul class="list-disc pl-5 mt-2 space-y-2">
+                    <li>Fixed minor bugs in the UI.</li>
+                    <li>Improved performance on older devices.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Changelog Item -->
+        <div class="bg-gray-800 text-white rounded-lg shadow-lg mb-6 p-6">
+            <h3 class="text-xl font-semibold">Version 1.0 - June 2024</h3>
+            <div class="mt-4">
+                <p class="font-semibold">Initial Release:</p>
+                <ul class="list-disc pl-5 mt-2 space-y-2">
+                    <li>Implemented core dialog functionalities.</li>
+                    <li>Basic customization options available.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Download Section -->
+<section id="Download" class="hidden-section ripple-effect">
+    <h2 class="section-title text-white">Download Nyra Dialog Maker</h2>
+    <p class="text-center text-gray-400 mt-4">Get the latest version of Nyra Dialog Maker or choose from previous versions.</p>
+
+    <!-- Versions List -->
+    <div class="mt-8 mx-auto max-w-4xl px-4">
+        <!-- Latest Version -->
+        <div class="bg-green-500 text-white rounded-lg shadow-lg mb-6 p-6 flex items-center space-x-4">
+            <div class="flex-1">
+                <h3 class="text-xl font-semibold">Latest Version 1.2</h3>
+                <p class="mt-2">This is the latest version with new features and improvements.</p>
+            </div>
+            <a href="https://example.com/download/latest" class="bg-green-700 hover:bg-green-800 text-white font-semibold py-2 px-6 rounded">Download</a>
+        </div>
+
+        <!-- Older Versions -->
+        <div>
+            <h4 class="text-lg font-semibold text-gray-200 mb-4">Older Versions</h4>
+            <div class="space-y-6">
+                <!-- Older Version 1.1 -->
+                <div class="bg-gray-700 text-white rounded-lg shadow-lg p-6 flex items-center space-x-4">
+                    <div class="flex-1">
+                        <h3 class="text-lg font-semibold">Version 1.1</h3>
+                        <p class="mt-2">Added new features and fixed bugs.</p>
+                    </div>
+                    <a href="https://example.com/download/1.1" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded">Download</a>
+                </div>
+
+                <!-- Older Version 1.0 -->
+                <div class="bg-gray-700 text-white rounded-lg shadow-lg p-6 flex items-center space-x-4">
+                    <div class="flex-1">
+                        <h3 class="text-lg font-semibold">Version 1.0</h3>
+                        <p class="mt-2">Initial release with basic features.</p>
+                    </div>
+                    <a href="https://example.com/download/1.0" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded">Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    </main>
+
+    <!-- JavaScript -->
+<script>
+    // Toggle mobile menu visibility
+    document.getElementById('mobile-menu-button').addEventListener('click', function () {
+        document.getElementById('mobile-menu').classList.toggle('open');
+        let icon = document.getElementById('menu-icon');
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-times');
+    });
+
+    // Show the section based on clicked menu item
+    function showSection(id) {
+        localStorage.setItem('activeSection', id);
+        
+        document.querySelectorAll('main section').forEach(section => {
+            if (section.id === id) {
+                section.classList.remove('hidden-section');
+                section.classList.add('active');
             } else {
-                menuIcon.classList.remove('fa-times');
-                menuIcon.classList.add('fa-bars');
+                section.classList.add('hidden-section');
+                section.classList.remove('active');
             }
         });
-    </script>
+
+        // Update active state in the navigation bar
+        document.querySelectorAll('nav a').forEach(link => {
+            if (link.getAttribute('onclick').includes(id)) {
+                link.classList.add('active-nav');
+            } else {
+                link.classList.remove('active-nav');
+            }
+        });
+    }
+
+    // Initialize the page on load
+    function initPage() {
+        // Get the section ID from local storage
+        const sectionId = localStorage.getItem('activeSection') || 'home';
+        
+        // Show the section if it exists, otherwise default to 'home'
+        showSection(sectionId);
+    }
+
+    document.addEventListener('DOMContentLoaded', initPage);
+</script>
 
 </body>
 </html>
