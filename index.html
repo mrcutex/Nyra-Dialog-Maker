@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nyra Dialog Maker</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for smooth animation */
+        #mobile-menu {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        /* Dark Mode Customization */
+        body {
+            background-color: #000000;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .bg-blue-600 {
+            background-color: #1f1f1f;
+        }
+
+        .text-white {
+            color: #ffffff;
+        }
+
+        .text-highlight {
+            color: #24D566; /* Gold color */
+        }
+
+        a:hover {
+            background-color: #333333;
+        }
+
+        /* Ensure smooth animation on first open */
+        #mobile-menu.open {
+            max-height: 300px; /* Adjust based on content height */
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="bg-blue-600 p-3 border-b border-gray-700">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-white text-xl font-semibold">
+                <span class="text-highlight">Nyra</span> Dialog Maker
+            </div>
+            <div class="hidden md:flex space-x-4">
+                <a href="#" class="text-white hover:bg-blue-700 py-2 px-3 rounded">Home</a>
+                <a href="#" class="text-white hover:bg-blue-700 py-2 px-3 rounded">About</a>
+                <a href="#" class="text-white hover:bg-blue-700 py-2 px-3 rounded">Services</a>
+                <a href="#" class="text-white hover:bg-blue-700 py-2 px-3 rounded">Contact</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none text-2xl">
+                    <i id="menu-icon" class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden mt-4 space-y-2">
+            <a href="#" class="block text-white hover:bg-blue-700 py-2 px-4 rounded">Home</a>
+            <a href="#" class="block text-white hover:bg-blue-700 py-2 px-4 rounded">About</a>
+            <a href="#" class="block text-white hover:bg-blue-700 py-2 px-4 rounded">Services</a>
+            <a href="#" class="block text-white hover:bg-blue-700 py-2 px-4 rounded">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto mt-10">
+        <h1 class="text-4xl font-bold text-center text-white">Welcome to <span class="text-highlight">Nyra</span> Dialog Maker</h1>
+        <p class="text-center text-gray-400 mt-4">Create elegant dialogs with ease.</p>
+    
+        <!-- Showcase Section -->
+        <div class="mt-16 flex flex-col md:flex-row items-center">
+            <center>
+                <a href="#downSection">
+                    <button class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded transition duration-300 ease-in-out">Download</button>
+                </a>
+            </center>
+
+            <!-- App Image -->
+            <center>
+                <div class="w-full md:w-1/2 p-4">
+                    <img src="https://i.ibb.co/QnfhWht/20240818-175737.png" alt="Nyra Dialog Maker" height="420" width="280" class="rounded-lg shadow-lg">
+                </div>
+            </center>
+
+            <!-- App Description -->
+            <div class="w-full md:w-1/2 p-4 text-white">
+                <h2 class="text-3xl font-semibold mb-4">Introducing <span class="text-highlight">Nyra Dialog Maker</span></h2>
+                <p class="mb-4">Nyra Dialog Maker is a powerful tool for creating beautiful and customizable dialogs with ease. Whether you need simple alerts or complex forms, Nyra Dialog Maker has you covered.</p>
+                <ul class="list-disc pl-5">
+                    <li class="mb-2">Easy to integrate into any project.</li>
+                    <li class="mb-2">Fully customizable dialogs with various templates.</li>
+                    <li class="mb-2">Lightweight and optimized for performance.</li>
+                    <li class="mb-2">Supports both light and dark modes.</li>
+                </ul>
+                <a href="#" class="inline-block mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded">Learn More</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Download Section -->
+    <div id="downSection" class="bg-blue-600 rounded-lg p-4 m-4 shadow-lg flex items-center text-white">
+        <img src="https://i.ibb.co/VjwWpqx/android.png" alt="android" class="w-12 h-12 mr-4">
+        <div>
+            <h3 class="text-xl font-semibold m-0">Nyra Dialog Maker</h3>
+            <p class="text-gray-400 mb-4">Version 1.0</p>
+            <center>
+                <button class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded transition duration-300 ease-in-out">Download</button>
+            </center>
+        </div>
+    </div>
+
+    <script>
+        // Toggle mobile menu visibility with smooth animation and icon change
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            mobileMenu.classList.toggle('open');
+            
+            // Toggle between bars and x icon
+            if (mobileMenu.classList.contains('open')) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+            } else {
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+    </script>
+
+</body>
+</html>
