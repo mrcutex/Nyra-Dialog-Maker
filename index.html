@@ -192,20 +192,16 @@
             </div>
         </section>
 <!-- About Section -->
-<section id="about" class="relative bg-gray-900 text-white py-12 h-screen overflow-hidden">
-    <!-- Background Video with Blur Effect -->
+<section id="about" class="relative bg-gray-900 text-white py-12">
+    <!-- Background Video -->
     <div class="absolute top-0 left-0 w-full h-full -z-10">
-        <video autoplay loop muted class="w-full h-full object-cover">
+        <video autoplay loop muted class="w-full h-full object-cover opacity-30">
             <source src="Video.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        <!-- Apply Blur Effect -->
-        <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50" style="backdrop-filter: blur(8px);">
-        </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="relative z-10 container mx-auto px-6 md:px-12 h-full flex flex-col justify-center">
+    <div class="relative z-10 container mx-auto px-6 md:px-12">
         <!-- Section Header -->
         <div class="text-center mb-12">
             <h2 class="text-4xl font-bold text-white mb-4">About Nyra Dialog Maker</h2>
@@ -214,7 +210,7 @@
             </p>
         </div>
 
-        <!-- Post Information Box -->
+        <!-- Post Information -->
         <div class="bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 mx-auto max-w-3xl">
             <div class="flex flex-col md:flex-row items-center justify-between mb-8">
                 <div class="mb-6 md:mb-0">
@@ -231,14 +227,32 @@
             <div class="text-center mt-8">
                 <a href="#contact" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300">Contact Us</a>
                 <a href="#faq" class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ml-4">FAQs</a>
-                <a href="link_to_your_first_external_resource" target="_blank" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 mt-4 block">External Resource 1</a>
-                <a href="link_to_your_second_external_resource" target="_blank" class="inline-block bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 mt-4 block">External Resource 2</a>
-            </div>
+                  </div>
         </div>
     </div>
 </section>
 
+        <section id="faq" class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-6 md:px-12">
+        <!-- FAQ Header -->
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-white mb-4">Frequently Asked Questions</h2>
+        </div>
 
+        <!-- FAQ Content -->
+        <div class="bg-gray-700 rounded-xl shadow-lg p-8 md:p-12 mx-auto max-w-3xl">
+            <div class="mb-6">
+                <h3 class="text-2xl font-semibold mb-2">What is Nyra Dialog Maker?</h3>
+                <p class="text-lg text-gray-300">Nyra Dialog Maker is a tool designed to create and manage interactive dialogs with ease, offering a range of customizable options.</p>
+            </div>
+            <div class="mb-6">
+                <h3 class="text-2xl font-semibold mb-2">How can I integrate it into my project?</h3>
+                <p class="text-lg text-gray-300">You can integrate Nyra Dialog Maker by including the necessary JavaScript and CSS files and using the provided APIs to create dialogs.</p>
+            </div>
+            <!-- Add more FAQs as needed -->
+        </div>
+    </div>
+        </section>
         <!-- Changelogs Section -->
 <section id="Changelogs" class="hidden-section ripple-effect">
     <h2 class="section-title text-white">Changelogs</h2>
