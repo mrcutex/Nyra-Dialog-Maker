@@ -365,9 +365,8 @@
     });
 
     // Show the section based on clicked menu item
-    function showSection(id) {
-        localStorage.setItem('activeSection', id);
-        
+    function showSection(id, updateHistory = true) {
+        // Set the section as active
         document.querySelectorAll('main section').forEach(section => {
             if (section.id === id) {
                 section.classList.remove('hidden-section');
@@ -386,19 +385,37 @@
                 link.classList.remove('active-nav');
             }
         });
+
+        // If updateHistory is true, push the section to the browser history
+        if (updateHistory) {
+            history.pushState({ section: id }, "", `#${id}`);
+        }
     }
 
     // Initialize the page on load
     function initPage() {
-        // Get the section ID from local storage
-        const sectionId = localStorage.getItem('activeSection') || 'home';
-        
-        // Show the section if it exists, otherwise default to 'home'
-        showSection(sectionId);
+        // Always load 'home' on fresh open or reload
+        const initialSection = 'home';
+        showSection(initialSection, false);  // Set false so it doesn't push to history
+
+        // Handle back button press to load the previous section
+        window.onpopstate = function (event) {
+            if (event.state && event.state.section) {
+                showSection(event.state.section, false);  // Set false to prevent pushing to history
+            }
+        };
     }
 
-    document.addEventListener('DOMContentLoaded', initPage);
+    // Resetting history on page reload
+    window.addEventListener('load', function() {
+        // Replace current history state to start fresh at 'home'
+        history.replaceState({ section: 'home' }, "", "#home");
+
+        // Initialize the page
+        initPage();
+    });
 </script>
+
 
 </body>
 </html>
